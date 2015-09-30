@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Vidyeo</title>
+</head>
+<body>
+<div class="select">
+    <label for="audio-source">Audio source: </label>
+    <select id="audio-source"></select>
+</div>
+
+<div class="select">
+    <label for="video-source">Video source: </label>
+    <select id="video-source"></select>
+</div>
+
+<video muted autoplay></video>
+
+<script>
+function hasGetUserMedia() {
+    return !!(navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+}
+
+if (hasGetUserMedia() === true) {
+    if (typeof MediaStreamTrack !== "undefined"){
+        var $video       = document.querySelector('video');
+        var $audioSelect = document.querySelector('#audio-source');
+        var $videoSelect = document.querySelector('#video-source');
+
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+        MediaStreamTrack.getSources(function(sourceInfos) {
+            for (var i=0; i !== sourceInfos.length; ++i) {
+                var sourceInfo = sourceInfos[i];
+
+                switch(sourceInfo.kind) {
+                    case 'audio':
+                        var sourceName = sourceInfo.label || "microphone " + ($audioSelect.lengt + 1);
+                        var option     = document.createElement("option");
+
+                        option.value = sourceInfo.id,
+                        option.text = sourceName;
+
+                        $audioSelect.appendChild(option);
+                        break;
+                    case 'video':
+                        var sourceName = sourceInfo.label || "camera " + ($videoSelect.lengt + 1)i;
+                        var option     = document.createElement("option");
+
+                        option.value = sourceInfo.id,
+                        option.text = sourceName;
+
+                        $videoSelect.appendChild(option);
+                        break;
+                    default:
+                        console.log("Some other kind of source: ", sourceInfo);
+                        break;
+                }
+            }
+        });
+
+        var start = function() {
+            if (!!window.stream) {
+                $video.src = null;
+
+                // window.stream.stop();
+                window.stream.getTracks().forEach(function(track) {
+                    track.stop();
+                });
+            }
+
+            var audioSource = $audioSelect.value;
+            var videoSource = $videoSelect.value;
+            var constraints = {
+                audio: {
+                    optional: [{
+                        sourceId: audioSource
+                    }]
+                },
+                video: {
+                    optional: [{
+                        sourceId: videoSource
+                    }]
+                }
+            };
+
+            navigator.getUserMedia(
+                constraints,
+                function(stream) {
+                    window.URL    = window.URL || window.webkitURL
+                    window.stream = stream;
+
+                    $video.src = window.URL.createObjectURL(stream);
+                    $video.play();
+                },
+                function(reason) {
+                    console.log("navigator.getUserMedia error: ", reason);
+                }
+            );
+        }
+
+        $audioSelect.onchange = start;
+        $videoSelect.onchange = start;
+
+        start();
+    }else{
+        alert("This browser does not support MediaStreamTrack");
+    }
+}else{
+    alert("This browser does not support getUserMedia");
+}
+</script>
+</body>
+</html>
