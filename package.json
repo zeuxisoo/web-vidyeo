@@ -1,0 +1,29 @@
+{
+  "devDependencies": {
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-if": "^2.0.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-rev": "^6.0.1",
+    "gulp-sequence": "^0.4.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.4.1",
+    "gulp-util": "^3.0.6",
+    "partialify": "^3.1.5"
+  },
+  "scripts": {
+    "watch": "gulp watch",
+    "dist": "gulp dist",
+    "production": "gulp dist --production"
+  },
+  "dependencies": {
+    "vue": "^0.12.16",
+    "vue-resource": "^0.1.16",
+    "vue-router": "^0.6.2"
+  }
+}

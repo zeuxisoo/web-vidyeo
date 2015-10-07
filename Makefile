@@ -11,3 +11,9 @@ server:
 
 prod-server:
 	source venv/bin/activate && python manager.py runserver -h 0.0.0.0 -p 5000
+
+watch:
+	npm run watch
+
+assets:
+	npm run production

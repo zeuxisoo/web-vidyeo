@@ -1,0 +1,6 @@
+{
+  "name": "Vidyeo",
+  "dependencies": {
+    "bootstrap": "~3.3.5"
+  }
+}

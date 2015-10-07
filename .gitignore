@@ -3,5 +3,9 @@
 *.pyo
 
 /venv/
+/bower_components/
+/node_modules/
+/public/build/
+/public/dist/
 
 /config/default.py
