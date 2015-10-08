@@ -13,15 +13,15 @@ var Router = new VueRouter({
 Router.map({
     '/': {
         name     : 'home',
-        component: require('../views/home')
+        component: require('../views/home.vue')
     },
 
     '*': {
         name     : 'any',
-        component: require('../views/not-found')
+        component: require('../views/not-found.vue')
     }
 });
 
 Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').prop('content');
 
-Router.start(Vue.extend(require('../views/layout')), '#app');
+Router.start(Vue.extend(require('../views/layout.vue')), '#app');

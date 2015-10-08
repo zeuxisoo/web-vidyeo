@@ -1,6 +1,7 @@
 {
   "name": "Vidyeo",
   "dependencies": {
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "animate.css": "~3.4.0"
   }
 }

@@ -7,5 +7,6 @@
 /node_modules/
 /public/build/
 /public/dist/
+/public/fonts/
 
 /config/default.py
