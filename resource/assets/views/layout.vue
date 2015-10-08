@@ -39,7 +39,7 @@
 
             <div class="row">
                 <div class="col-xs-12">
-                    <router-view></router-view>
+                    <router-view class="view" transition="fade-and-slide" transition-mode="out-in"></router-view>
                 </div>
             </div>
         </div>
@@ -48,6 +48,7 @@
 
 <style>
 .sidebar-nav.bottom {
+    position: fixed;
     bottom: 20px;
     top: inherit;
 }
@@ -64,6 +65,15 @@
     100% {
         transform:rotate(90deg);
     }
+}
+
+.view {
+    transition: all .5s ease;
+}
+
+.fade-and-slide-enter, .fade-and-slide-leave {
+    opacity: 0;
+    transform: translate3d(10px, 0, 0);
 }
 </style>
 
