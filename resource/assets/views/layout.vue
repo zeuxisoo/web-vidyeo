@@ -37,6 +37,8 @@
                 </div>
             </nav>
 
+            <div class="row margin-bottom-20px visible-xs-block">&nbsp;</div>
+
             <div class="row">
                 <div class="col-xs-12">
                     <router-view class="view" transition="fade-and-slide" transition-mode="out-in"></router-view>
@@ -55,6 +57,10 @@
 
 .full-width {
     width: 100%;
+}
+
+.margin-bottom-20px {
+    margin-bottom: 20px;
 }
 
 .rotate-90 {
