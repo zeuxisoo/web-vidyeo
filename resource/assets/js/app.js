@@ -16,6 +16,16 @@ Router.map({
         component: require('../views/home.vue')
     },
 
+    '/login': {
+        name     : 'login',
+        component: require('../views/login.vue')
+    },
+
+    '/signup': {
+        name     : 'signup',
+        component: require('../views/signup.vue')
+    },
+
     '*': {
         name     : 'any',
         component: require('../views/not-found.vue')

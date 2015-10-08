@@ -8,16 +8,16 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">Home</a>
+                    <a v-link="{ name: 'home' }">Home</a>
                 </li>
             </ul>
 
             <div class="sidebar-nav bottom text-center">
                 <div class="col-xs-6">
-                    <a href="#" class="btn btn-sm btn-primary full-width">Log In</a>
+                    <a class="btn btn-sm btn-primary full-width" v-link="{ name: 'login' }">Log In</a>
                 </div>
                 <div class="col-xs-6">
-                    <a href="#" class="btn btn-sm btn-primary full-width">Sign Up</a>
+                    <a class="btn btn-sm btn-primary full-width" v-link="{ name: 'signup' }">Sign Up</a>
                 </div>
             </div>
         </div>
