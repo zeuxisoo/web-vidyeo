@@ -1,0 +1,2 @@
+class BaseTransformer(object):
+    pass

@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from flask import render_template, request, jsonify
+from flask_wtf.csrf import CsrfProtect
 
 def create_app():
     app = Flask(__name__, template_folder='views')
@@ -8,16 +9,27 @@ def create_app():
 
     app.config.from_pyfile('../config/default.py')
 
+    register_csrf(app)
     register_routes(app)
+    register_api(app)
     register_view_filters(app)
     reigster_not_found(app)
 
     return app
 
+def register_csrf(app):
+    csrf = CsrfProtect()
+    csrf.init_app(app)
+
 def register_routes(app):
     from .routes import index
 
     app.register_blueprint(index.blueprint, url_prefix='')
+
+def register_api(app):
+    from .api import index
+
+    app.register_blueprint(index.blueprint, url_prefix='/api')
 
 def register_view_filters(app):
     from .helpers.view import assets_for
