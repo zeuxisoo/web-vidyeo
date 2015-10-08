@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from flask import render_template, request, jsonify
 
 def create_app():
     app = Flask(__name__, template_folder='views')
@@ -9,6 +10,7 @@ def create_app():
 
     register_routes(app)
     register_view_filters(app)
+    reigster_not_found(app)
 
     return app
 
@@ -25,3 +27,16 @@ def register_view_filters(app):
         return dict(
             assets_for=assets_for
         )
+
+def reigster_not_found(app):
+    @app.errorhandler(404)
+    def page_not_found(e):
+        if request.is_xhr:
+            return jsonify(
+                data=dict(
+                    code=404,
+                    message="404 Page not found"
+                )
+            ), 404
+        else:
+            return render_template('index.html'), 404
