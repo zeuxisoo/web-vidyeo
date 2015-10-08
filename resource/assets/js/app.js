@@ -1,9 +1,12 @@
-var Vue = require('vue'),
-    VueRouter = require('vue-router'),
-    VueResource = require('vue-resource');
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import VueResource from 'vue-resource';
+import Api from './api';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
+
+Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
 
 var Router = new VueRouter({
     history: true,
@@ -13,25 +16,31 @@ var Router = new VueRouter({
 Router.map({
     '/': {
         name     : 'home',
-        component: require('../views/home.vue')
+        component: require('./views/home.vue')
     },
 
     '/login': {
         name     : 'login',
-        component: require('../views/login.vue')
+        component: require('./views/login.vue')
     },
 
     '/signup': {
         name     : 'signup',
-        component: require('../views/signup.vue')
+        component: require('./views/signup.vue')
     },
 
     '*': {
         name     : 'any',
-        component: require('../views/not-found.vue')
+        component: require('./views/not-found.vue')
     }
 });
 
-Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').prop('content');
+Object.defineProperties(Vue.prototype, {
+    $api: {
+        get: function() {
+            return Api(this);
+        }
+    }
+});
 
-Router.start(Vue.extend(require('../views/layout.vue')), '#app');
+Router.start(Vue.extend(require('./views/layout.vue')), '#app');

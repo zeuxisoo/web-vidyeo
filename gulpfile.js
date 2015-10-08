@@ -32,7 +32,7 @@ gulp.task('browserify', function(callback) {
         .src(assetsPath + '/js/app.js')
         .pipe(browserify({
             insertGlobals: true,
-            transform: ['partialify', 'vueify']
+            transform: ['partialify', 'babelify', 'vueify']
         }))
         .pipe(rename('app.scope.js'))
         .pipe(gulp.dest(buildPath))
@@ -48,7 +48,7 @@ gulp.task('scripts', function(callback) {
         ])
         .pipe(sourcemaps.init())
         .pipe(concat(buildPath + '/app.all.js'))
-        .pipe(gulpif(gutil.env.production, uglify()))
+        .pipe(gulpif(gutil.env.production, uglify().on('error', gutil.log)))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(__dirname))
         .pipe(notify('Scripts'));

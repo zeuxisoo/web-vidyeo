@@ -86,7 +86,7 @@
 <script lang="es6">
 export default {
     ready() {
-        $("#menu-toggle").click(function(e) {
+        $("#menu-toggle").click((e) => {
             e.preventDefault();
 
             if ($(this).hasClass("rotate-90") === true) {
