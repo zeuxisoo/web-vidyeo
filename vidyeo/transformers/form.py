@@ -14,6 +14,4 @@ class FormErrorTransformer(BaseTransformer):
 class FormSuccessTransformer(BaseTransformer):
 
     def transform(self, message):
-        return {
-            message: message
-        }
+        return message

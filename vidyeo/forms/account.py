@@ -39,9 +39,8 @@ class SignupForm(BaseForm):
 
     def save(self):
         data = self.data
-        data.pop('confirm_password', None)
 
-        user = Account(**data)
-        user.save()
+        account = Account(**data)
+        account.save()
 
-        return user
+        return account

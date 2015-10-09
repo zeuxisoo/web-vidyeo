@@ -24,6 +24,7 @@
 </template>
 
 <script lang="es6">
+import MessageHelper from '../helpers/message'
 import UIMixin from '../mixins/ui'
 
 export default {
@@ -43,9 +44,15 @@ export default {
                 username: this.username,
                 email   : this.email,
                 password: this.password
-            }).success((data, status, request) => {
-                console.log('success');
-                console.log(data);
+            }).success((response, status, request) => {
+                var response = response.data;
+                    message = response.message;
+
+                MessageHelper.success(message);
+
+                this.$route.router.go({
+                    name: 'login'
+                });
             }).error(this.shakeError);
         }
     }

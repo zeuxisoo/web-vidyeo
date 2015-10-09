@@ -11,9 +11,13 @@ def signup():
     form = SignupForm()
 
     if form.validate_on_submit():
-        message = "Your account was created"
+        form.save()
 
-        return ResponseHelper.item(message, FormSuccessTransformer)
+        data = dict(
+            message="Your account was created"
+        )
+
+        return ResponseHelper.item(data, FormSuccessTransformer)
     else:
         return ResponseHelper.item(form.errors, FormErrorTransformer), 500
 
