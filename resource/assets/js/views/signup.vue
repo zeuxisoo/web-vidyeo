@@ -1,5 +1,5 @@
 <template>
-    <div id="signup">
+    <div id="signup" v-bind:class="{ 'shake': error, 'animated': error }">
         <h3>Sign up</h3>
         <hr>
         <div class="panel panel-default">
@@ -24,7 +24,11 @@
 </template>
 
 <script lang="es6">
+import UIMixin from '../mixins/ui'
+
 export default {
+    mixins: [UIMixin],
+
     data() {
         return {
             username: "",
@@ -39,13 +43,10 @@ export default {
                 username: this.username,
                 email   : this.email,
                 password: this.password
-            }).success(function(data, status, request) {
+            }).success((data, status, request) => {
                 console.log('success');
                 console.log(data);
-            }).error(function(data, status, request) {
-                console.log('error');
-                console.log(data);
-            });
+            }).error(this.shakeError);
         }
     }
 }

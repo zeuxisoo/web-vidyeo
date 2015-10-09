@@ -44,6 +44,7 @@ gulp.task('scripts', function(callback) {
         .src([
             'bower_components/jquery/dist/jquery.js',
             'bower_components/bootstrap/dist/js/bootstrap.js',
+            'bower_components/toastr/toastr.js',
             buildPath + '/app.scope.js'
         ])
         .pipe(sourcemaps.init())
@@ -59,6 +60,7 @@ gulp.task('styles', function(callback) {
         .src([
             'bower_components/bootstrap/dist/css/bootstrap.css',
             'bower_components/animate.css/animate.css',
+            'bower_components/toastr/toastr.css',
             assetsPath + '/css/simple-sidebar.css'
         ])
         .pipe(sourcemaps.init())

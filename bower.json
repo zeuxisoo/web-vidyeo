@@ -2,6 +2,7 @@
   "name": "Vidyeo",
   "dependencies": {
     "bootstrap": "~3.3.5",
-    "animate.css": "~3.4.0"
+    "animate.css": "~3.4.0",
+    "toastr": "~2.1.2"
   }
 }
