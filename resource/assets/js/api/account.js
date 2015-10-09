@@ -4,8 +4,8 @@ export default class Account {
         this.app = app;
     }
 
-    signup(data, success) {
-        return this.app.$http.post('signup', data);
+    me(data) {
+        return this.app.$http.get('account/me', data);
     }
 
 }

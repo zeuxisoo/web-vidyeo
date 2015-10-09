@@ -19,8 +19,4 @@ def signup():
 
         return ResponseHelper.item(data, FormSuccessTransformer)
     else:
-        return ResponseHelper.item(form.errors, FormErrorTransformer), 500
-
-@blueprint.route('/login', methods=['POST'])
-def login():
-    return jsonify(message="login")
+        return ResponseHelper.item(form.errors, FormErrorTransformer), 400

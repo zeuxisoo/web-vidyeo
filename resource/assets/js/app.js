@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
+import StoreHelper from './helpers/store';
 import Api from './api';
 
 Vue.use(VueRouter);
@@ -30,16 +31,58 @@ Router.map({
         component: require('./views/signup.vue')
     },
 
+    '/streamer': {
+        auth      : true,
+        name      : 'streamer.index',
+        component : require('./views/streamer/index.vue'),
+    },
+
+    '/streamer/apply': {
+        auth     : true,
+        name     : 'streamer.apply',
+        component: require('./views/streamer/apply.vue')
+    },
+
+    '/streamer/boardcast': {
+        auth     : true,
+        name     : 'streamer.boardcast',
+        component: require('./views/streamer/boardcast.vue')
+    },
+
     '*': {
         name     : 'any',
         component: require('./views/not-found.vue')
     }
 });
 
+Router.beforeEach((transition) => {
+    StoreHelper.getInstance().getItem('jwt-token').then((token) => {
+        if (transition.to.auth) {
+            if (!token) {
+                transition.redirect({ name: 'login' });
+            }
+        }
+
+        if (transition.to.guest) {
+            if (token) {
+                transition.redirect({ name: 'home' });
+            }
+        }
+
+        transition.next()
+    });
+});
+
 Object.defineProperties(Vue.prototype, {
     $api: {
         get: function() {
             return Api(this);
+        }
+    },
+
+    $store: {
+        get: function() {
+            return StoreHelper.getInstance();
         }
     }
 });

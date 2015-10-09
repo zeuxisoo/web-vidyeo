@@ -40,7 +40,7 @@ export default {
 
     methods: {
         signup() {
-            this.$api.account.signup({
+            this.$api.home.signup({
                 username: this.username,
                 email   : this.email,
                 password: this.password

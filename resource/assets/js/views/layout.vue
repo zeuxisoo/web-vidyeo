@@ -10,10 +10,13 @@
                 <li>
                     <a v-link="{ name: 'home' }">Home</a>
                 </li>
+                <li>
+                    <a v-link="{ name: 'streamer.index' }">Streamer</a>
+                </li>
             </ul>
 
             <div class="sidebar-bottom">
-                <div class="control text-center">
+                <div class="control text-center" v-if="!authenticated">
                     <div class="col-xs-6">
                         <a class="btn btn-sm btn-primary full-width" v-link="{ name: 'login' }">Log In</a>
                     </div>
@@ -92,7 +95,19 @@
 </style>
 
 <script lang="es6">
+import AccountMixin from '../mixins/account'
+
 export default {
+
+    mixins: [AccountMixin],
+
+    data() {
+        return {
+            account      : {},
+            authenticated: false
+        }
+    },
+
     ready() {
         $("#menu-toggle").click((e) => {
             e.preventDefault();
@@ -105,6 +120,51 @@ export default {
 
             $("#wrapper").toggleClass("toggled");
         });
+
+        // Active account when jwt token is exists
+        this.$store.getItem('jwt-token').then((token) => {
+            if (token) {
+                this.setJWTAuthorization(token);
+                this.loadAccountInfo();
+            }
+        });
+
+        // Listen application events
+        this.$on('tokenSaved', (token) => {
+            this.setJWTAuthorization(token);
+        });
+
+        this.$on('accountLogin', (account) => {
+            this.setLoginState(account);
+        });
+
+        this.$on('accountLogout', (account) => {
+            this.removeLoginState();
+        })
+    },
+
+    methods: {
+        setJWTAuthorization(token) {
+            this.$http.headers.common["Authorization"] = "Bearer " + token;
+        },
+
+        setLoginState(account) {
+            this.account       = account;
+            this.authenticated = true;
+        },
+
+        removeLoginState() {
+            this.account       = {};
+            this.authenticated = false;
+
+            this.$store.removeItem('jwt-token');
+
+            if (this.$route.auth) {
+                this.$route.router.go({
+                    name: 'login'
+                });
+            }
+        }
     }
 }
 </script>

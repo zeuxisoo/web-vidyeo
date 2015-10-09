@@ -52,14 +52,25 @@ def register_jwt(app):
         if 'user_id' in payload:
             return Account.query.get(payload['user_id'])
 
+    @jwt.error_handler
+    def error_handler(e):
+        data = {
+            'message'    : e.description,
+            'status_code': e.status_code,
+            'error'      : e.error
+        }
+
+        return jsonify(data=data), e.status_code, e.headers
+
 def register_routes(app):
     from .routes import index
 
     app.register_blueprint(index.blueprint, url_prefix='')
 
 def register_api(app):
-    from .api import index
+    from .api import index, account
 
+    app.register_blueprint(account.blueprint, url_prefix='/api/account')
     app.register_blueprint(index.blueprint, url_prefix='/api')
 
 def register_view_filters(app):
