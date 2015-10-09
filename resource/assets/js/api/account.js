@@ -5,7 +5,7 @@ export default class Account {
     }
 
     signup(data, success) {
-        return this.app.$http.post('/api/signup', data);
+        return this.app.$http.post('signup', data);
     }
 
 }

@@ -6,6 +6,7 @@ import Api from './api';
 Vue.use(VueRouter);
 Vue.use(VueResource);
 
+Vue.http.options.root = '/api';
 Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
 
 var Router = new VueRouter({
