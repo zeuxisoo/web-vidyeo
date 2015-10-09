@@ -12,12 +12,14 @@
                 </li>
             </ul>
 
-            <div class="sidebar-nav bottom text-center">
-                <div class="col-xs-6">
-                    <a class="btn btn-sm btn-primary full-width" v-link="{ name: 'login' }">Log In</a>
-                </div>
-                <div class="col-xs-6">
-                    <a class="btn btn-sm btn-primary full-width" v-link="{ name: 'signup' }">Sign Up</a>
+            <div class="sidebar-bottom">
+                <div class="control text-center">
+                    <div class="col-xs-6">
+                        <a class="btn btn-sm btn-primary full-width" v-link="{ name: 'login' }">Log In</a>
+                    </div>
+                    <div class="col-xs-6">
+                        <a class="btn btn-sm btn-primary full-width" v-link="{ name: 'signup' }">Sign Up</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,10 +51,16 @@
 </template>
 
 <style>
-.sidebar-nav.bottom {
+.sidebar-bottom {
     position: absolute;
-    bottom: 20px;
-    top: inherit;
+    width: 250px;
+    bottom: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.sidebar-bottom .control {
+    display: block;
 }
 
 .full-width {
