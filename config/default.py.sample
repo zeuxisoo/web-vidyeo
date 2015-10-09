@@ -1,2 +1,6 @@
+import os
+
 DEBUG      = False
 SECRET_KEY = "__YOUR__SECRET__KEY__"
+
+SQLALCHEMY_DATABASE_URI = 'sqlite:///%s' % os.path.join(os.getcwd(), 'storage', 'default.sqlite')

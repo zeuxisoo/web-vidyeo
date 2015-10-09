@@ -8,5 +8,6 @@
 /public/build/
 /public/dist/
 /public/fonts/
+/storage/
 
 /config/default.py

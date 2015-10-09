@@ -1,6 +1,7 @@
 from wtforms import TextField, PasswordField
 from wtforms.validators import DataRequired, Length, Email, Regexp
 from .base import BaseForm
+from ..models import Account
 
 class SignupForm(BaseForm):
     username = TextField(

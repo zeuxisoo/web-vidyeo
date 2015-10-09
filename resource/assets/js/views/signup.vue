@@ -35,7 +35,17 @@ export default {
 
     methods: {
         signup() {
-            this.$api.account.signup();
+            this.$api.account.signup({
+                username: this.username,
+                email   : this.email,
+                password: this.password
+            }).success(function(data, status, request) {
+                console.log('success');
+                console.log(data);
+            }).error(function(data, status, request) {
+                console.log('error');
+                console.log(data);
+            });
         }
     }
 }

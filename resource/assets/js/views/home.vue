@@ -1,5 +1,7 @@
 <template>
-Home
+    <div id="home">
+        Home
+    </div>
 </template>
 
 <script lang="es6">

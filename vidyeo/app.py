@@ -9,6 +9,7 @@ def create_app():
 
     app.config.from_pyfile('../config/default.py')
 
+    register_database(app)
     register_csrf(app)
     register_routes(app)
     register_api(app)
@@ -16,6 +17,12 @@ def create_app():
     reigster_not_found(app)
 
     return app
+
+def register_database(app):
+    from .models import db
+
+    db.init_app(app)
+    db.app = app
 
 def register_csrf(app):
     csrf = CsrfProtect()

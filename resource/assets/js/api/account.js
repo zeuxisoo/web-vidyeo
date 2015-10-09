@@ -4,9 +4,8 @@ export default class Account {
         this.app = app;
     }
 
-    signup() {
-        console.log("Account.signup");
-        console.log(this.app.$http);
+    signup(data, success) {
+        return this.app.$http.post('/api/signup', data);
     }
 
 }

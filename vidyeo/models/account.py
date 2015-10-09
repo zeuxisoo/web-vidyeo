@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask.ext.bcrypt import Bcrypt
 from .base import db, SessionMixin
 
