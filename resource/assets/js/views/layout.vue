@@ -138,14 +138,14 @@ export default {
             this.setLoginState(account);
         });
 
-        this.$on('accountLogout', (account) => {
+        this.$on('accountLogout', () => {
             this.removeLoginState();
         })
     },
 
     methods: {
         setJWTAuthorization(token) {
-            this.$http.headers.common["Authorization"] = "Bearer " + token;
+            this.$http.headers.common["Authorization"] = "JWT " + token;
         },
 
         setLoginState(account) {

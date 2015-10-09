@@ -2,13 +2,29 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 import StoreHelper from './helpers/store';
+import MessageHelper from './helpers/message';
 import Api from './api';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
 
-Vue.http.options.root = '/api';
+Vue.http.options.root  = '/api';
 Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
+
+Vue.http.transforms.response.push((response) => {
+    if (response.ok === false) {
+        let responseData = response.data,
+            backendData  = responseData.data;
+
+        if (backendData.status_code === 401) {
+            MessageHelper.error('Session timeout, Please login again');
+
+            Router.app.$boardcast('accountLogout');
+        }
+    }
+
+    return response;
+});
 
 var Router = new VueRouter({
     history: true,

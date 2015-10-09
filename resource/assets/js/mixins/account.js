@@ -21,8 +21,11 @@ export default {
                     });
                 })
                 .error((response, status, request) => {
-                    this.$dispatch('accountLogout', response.data);
-                    this.shakeError(response, status, request);
+                    this.$dispatch('accountLogout');
+
+                    if (response) {
+                        this.shakeError(response, status, request);
+                    }
                 });
         }
     }
