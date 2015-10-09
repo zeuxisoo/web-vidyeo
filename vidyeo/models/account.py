@@ -24,6 +24,9 @@ class Account(db.Model, SessionMixin):
     def __repr__(self):
         return '<Account: %s>' % self.id
 
+    def password_verify(self, password):
+        return Bcrypt().check_password_hash(self.password, password)
+
     @staticmethod
     def password_hash(password, rounds=None):
         return Bcrypt().generate_password_hash(password, rounds=rounds)

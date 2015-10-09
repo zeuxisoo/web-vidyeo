@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask import render_template, request, jsonify
 from flask_wtf.csrf import CsrfProtect
+from flask.ext.jwt import JWT
 
 def create_app():
     app = Flask(__name__, template_folder='views')
@@ -11,6 +12,7 @@ def create_app():
 
     register_database(app)
     register_csrf(app)
+    register_jwt(app)
     register_routes(app)
     register_api(app)
     register_view_filters(app)
@@ -27,6 +29,28 @@ def register_database(app):
 def register_csrf(app):
     csrf = CsrfProtect()
     csrf.init_app(app)
+
+def register_jwt(app):
+    from .models import Account
+
+    jwt = JWT(app)
+
+    # curl -X POST -H "Content-Type: application/json" -d '{"username":"<USERNAME>","password":"<PASSWORD>"}' http://localhost:5000/api/auth
+    @jwt.authentication_handler
+    def authenticate(username, password):
+        if '@' in username:
+            account = Account.query.filter_by(email=username).first()
+        else:
+            account = Account.query.filter_by(username=username).first()
+
+        if account and account.password_verify(password):
+            return account
+
+    # curl -H "Authorization: Bearer <JWT_TOKEN>" http://localhost:5000/api/media/detail/protected?token=<TOKEN>
+    @jwt.user_handler
+    def load_user(payload):
+        if 'user_id' in payload:
+            return Account.query.get(payload['user_id'])
 
 def register_routes(app):
     from .routes import index
