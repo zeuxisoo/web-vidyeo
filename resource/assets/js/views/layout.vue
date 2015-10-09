@@ -50,7 +50,7 @@
 
 <style>
 .sidebar-nav.bottom {
-    position: fixed;
+    position: absolute;
     bottom: 20px;
     top: inherit;
 }
