@@ -12,7 +12,8 @@ var gulp = require('gulp'),
     gulpif = require('gulp-if'),
     gutil = require('gulp-util'),
     livereload = require('gulp-livereload'),
-    autoprefixer = require('gulp-autoprefixer');
+    autoprefixer = require('gulp-autoprefixer'),
+    plumber = require('gulp-plumber');
 
 var publicPath = './public',
     resourcePath = './resource',
@@ -30,9 +31,24 @@ gulp.task('clean', function(callback) {
 gulp.task('browserify', function(callback) {
     return gulp
         .src(assetsPath + '/js/app.js')
+        .pipe(plumber({
+            errorHandler: notify.onError({
+                sound  : true,
+                sticky : false,
+                message: "ERROR: <%= error.message %>"
+            })
+        }))
         .pipe(browserify({
             insertGlobals: true,
-            transform: ['partialify', 'babelify', 'vueify']
+            transform: ['partialify', 'babelify', 'vueify'],
+            debug : !gutil.env.production
+        }).on('error', function(error) {
+            gutil.beep('*-****-*-*--');
+            gutil.log("============================");
+            gutil.log("==> Plugin : " + error.plugin);
+            gutil.log("==> Name   : " + error.name);
+            gutil.log("============================");
+            gutil.log(error.stack);
         }))
         .pipe(rename('app.scope.js'))
         .pipe(gulp.dest(buildPath))
