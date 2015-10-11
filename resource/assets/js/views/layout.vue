@@ -24,6 +24,11 @@
                         <a class="btn btn-sm btn-primary full-width" v-link="{ name: 'signup' }">Sign Up</a>
                     </div>
                 </div>
+                <div class="control text-center" v-if="authenticated">
+                    <div class="col-xs-12">
+                        <a class="btn btn-sm btn-primary full-width" v-on:click="logout">Log Out</a>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -164,6 +169,10 @@ export default {
                     name: 'login'
                 });
             }
+        },
+
+        logout() {
+            this.removeLoginState();
         }
     }
 }
