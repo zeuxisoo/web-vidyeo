@@ -2,10 +2,10 @@
     <div id="streamer-index">
         <h3>Streamer</h3>
         <hr>
-        <div class="panel panel-default">
+        <div class="panel panel-default" v-bind:class="{ 'shake': error, 'animated': error }">
             <div class="panel-heading">Be a streamer</div>
             <div class="panel-body">
-                <a v-link="{ name: 'streamer.apply' }" class="btn btn-lg btn-primary col-xs-12">Let's try</a>
+                <a class="btn btn-lg btn-primary col-xs-12" v-on:click="tryIt">Let's try</a>
             </div>
         </div>
         <hr>
@@ -19,7 +19,22 @@
 </template>
 
 <script lang="es6">
+import UIMixin from '../../mixins/ui'
+
 export default {
+
+    mixins: [UIMixin],
+
+    methods: {
+        tryIt() {
+            this.$api.streamer
+                .tryIt({})
+                .success((response, status, request) => {
+
+                })
+                .error(this.shakeError);
+        }
+    }
 
 }
 </script>

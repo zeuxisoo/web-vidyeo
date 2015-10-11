@@ -68,8 +68,9 @@ def register_routes(app):
     app.register_blueprint(index.blueprint, url_prefix='')
 
 def register_api(app):
-    from .api import index, account
+    from .api import index, account, streamer
 
+    app.register_blueprint(streamer.blueprint, url_prefix='/api/streamer')
     app.register_blueprint(account.blueprint, url_prefix='/api/account')
     app.register_blueprint(index.blueprint, url_prefix='/api')
 
