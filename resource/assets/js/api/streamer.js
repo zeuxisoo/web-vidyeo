@@ -4,8 +4,8 @@ export default class Streamer {
         this.app = app;
     }
 
-    tryIt(data) {
-        return this.app.$http.get('streamer/try-it', data);
+    create(data) {
+        return this.app.$http.get('streamer/create', data);
     }
 
 }

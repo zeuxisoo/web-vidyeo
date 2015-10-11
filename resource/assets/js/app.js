@@ -53,12 +53,6 @@ Router.map({
         component : require('./views/streamer/index.vue'),
     },
 
-    '/streamer/apply': {
-        auth     : true,
-        name     : 'streamer.apply',
-        component: require('./views/streamer/apply.vue')
-    },
-
     '/streamer/boardcast': {
         auth     : true,
         name     : 'streamer.boardcast',

@@ -7,3 +7,6 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///%s' % os.path.join(os.getcwd(), 'storage', 
 
 JWT_AUTH_URL_RULE = "/api/auth"
 JWT_EXPIRATION_DELTA = timedelta(seconds=300)
+
+HASH_IDS_SALT       = "__YOUR__HASH___ID__SALT__"
+HASH_IDS_MIN_LENGTH = 8

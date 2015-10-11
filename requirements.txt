@@ -5,5 +5,6 @@ Flask-SQLAlchemy==2.0
 Flask-Bcrypt==0.7.1
 
 alembic==0.8.2
+hashids==1.1.0
 
 -e git+https://github.com/mattupstate/flask-jwt.git#egg=flask-jwt

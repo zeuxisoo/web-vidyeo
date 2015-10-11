@@ -5,7 +5,7 @@
         <div class="panel panel-default" v-bind:class="{ 'shake': error, 'animated': error }">
             <div class="panel-heading">Be a streamer</div>
             <div class="panel-body">
-                <a class="btn btn-lg btn-primary col-xs-12" v-on:click="tryIt">Let's try</a>
+                <a class="btn btn-lg btn-primary col-xs-12" v-on:click="create">Let's try</a>
             </div>
         </div>
         <hr>
@@ -19,6 +19,7 @@
 </template>
 
 <script lang="es6">
+import MessageHelper from '../../helpers/message'
 import UIMixin from '../../mixins/ui'
 
 export default {
@@ -26,11 +27,14 @@ export default {
     mixins: [UIMixin],
 
     methods: {
-        tryIt() {
+        create() {
             this.$api.streamer
-                .tryIt({})
+                .create({})
                 .success((response, status, request) => {
+                    var response = response.data;
+                        message = response.message;
 
+                    MessageHelper.success(message);
                 })
                 .error(this.shakeError);
         }

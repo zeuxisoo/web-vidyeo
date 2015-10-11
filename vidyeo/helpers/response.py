@@ -9,3 +9,7 @@ class ResponseHelper(object):
         return jsonify(
             data=transformed_data
         )
+
+    @staticmethod
+    def status_code(error):
+        return 400 if error else 200
