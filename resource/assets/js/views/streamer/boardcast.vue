@@ -65,7 +65,7 @@ export default {
 
                     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
-                    MediaStreamTrack.getSources(function(sourceInfos) {
+                    MediaStreamTrack.getSources((sourceInfos) => {
                         for (var i=0; i !== sourceInfos.length; ++i) {
                             var sourceInfo = sourceInfos[i];
 
@@ -116,7 +116,7 @@ export default {
                 $video.src = null;
 
                 // window.stream.stop();
-                window.stream.getTracks().forEach(function(track) {
+                window.stream.getTracks().forEach((track) => {
                     track.stop();
                 });
             }
@@ -140,7 +140,7 @@ export default {
 
             navigator.getUserMedia(
                 constraints,
-                function(stream) {
+                (stream) => {
                     window.URL    = window.URL || window.webkitURL
                     window.stream = stream;
 
@@ -148,7 +148,7 @@ export default {
                         var videoWidth  = this.videoWidth / 2;
                         var videoHeight = this.videoHeight / 2;
 
-                        var canvasTimer = setInterval(function () {
+                        var canvasTimer = setInterval(() => {
                             try {
                                 var canvas  = document.querySelector('#canvas');
                                 var context = canvas.getContext("2d");
@@ -170,7 +170,7 @@ export default {
                     $video.src = window.URL.createObjectURL(stream);
                     $video.play();
                 },
-                function(reason) {
+                (reason) => {
                     if (reason.name === "DevicesNotFoundError") {
                         MessageHelper.warning("Devices not found");
                     }else{
@@ -181,13 +181,15 @@ export default {
         },
 
         dataURItoBlob(dataURI) {
-            var byteString = atob(dataURI.split(',')[1]);
-            var ab = new ArrayBuffer(byteString.length);
-            var ia = new Uint8Array(ab);
-            for (var i = 0; i < byteString.length; i++) {
-                ia[i] = byteString.charCodeAt(i);
+            var byteString   = atob(dataURI.split(',')[1]);
+            var arrayBuffer  = new ArrayBuffer(byteString.length);
+            var integerArray = new Uint8Array(arrayBuffer);
+
+            for (var i=0; i<byteString.length; i++) {
+                integerArray[i] = byteString.charCodeAt(i);
             }
-            return new Blob([ab], { type: 'image/jpeg' });
+
+            return new Blob([arrayBuffer], { type: 'image/jpeg' });
         }
     }
 
