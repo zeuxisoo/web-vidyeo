@@ -1,94 +1,64 @@
 <template>
-    <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    <a href="#">
-                        Vidyeo
-                    </a>
-                </li>
-                <li>
-                    <a v-link="{ name: 'home' }">Home</a>
-                </li>
-                <li>
-                    <a v-link="{ name: 'streamer.index' }">Streamer</a>
-                </li>
-            </ul>
+    <div class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" v-link="{ name: 'home' }">
+                    <span>Vidyeo</span>
+                </a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a v-link="{ name: 'home' }">Home</a>
+                    </li>
+                    <li>
+                        <a v-link="{ name: 'streamer.index' }">Streamer</a>
+                    </li>
+                </ul>
 
-            <div class="sidebar-bottom">
-                <div class="control text-center" v-if="!authenticated">
-                    <div class="col-xs-6">
-                        <a class="btn btn-sm btn-primary full-width" v-link="{ name: 'login' }">Log In</a>
-                    </div>
-                    <div class="col-xs-6">
-                        <a class="btn btn-sm btn-primary full-width" v-link="{ name: 'signup' }">Sign Up</a>
-                    </div>
-                </div>
-                <div class="control text-center" v-if="authenticated">
-                    <div class="col-xs-12">
-                        <a class="btn btn-sm btn-primary full-width" v-on:click="logout">Log Out</a>
-                    </div>
-                </div>
+                <ul class="nav navbar-nav navbar-right" v-if="authenticated">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            {{ account.username }} <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li ><a v-on:click="logout">Sign Out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right" v-if="!authenticated">
+                    <li><a v-link="{ name: 'login' }">Sign In</a></li>
+                    <li><a v-link="{ name: 'signup' }">Sign Up</a></li>
+                </ul>
             </div>
         </div>
+    </div>
 
-        <div id="page-content-wrapper">
-            <nav class="navbar navbar-inverse navbar-fixed-top visible-xs-block">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" id="menu-toggle">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">Vidyeo</a>
-                    </div>
-                </div>
-            </nav>
+    <div class="content">
+        <div class="container">
+            <router-view class="view" transition="fade-and-slide" transition-mode="out-in"></router-view>
+        </div>
+    </div>
 
-            <div class="row margin-bottom-20px visible-xs-block">&nbsp;</div>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    <router-view class="view" transition="fade-and-slide" transition-mode="out-in"></router-view>
-                </div>
-            </div>
+    <div class="footer">
+        <div class="container">
+            <hr>
+            <small>
+                <span class="pull-left">&copy; Vidyeo 2015</span>
+                <span class="pull-right">&nbsp;</span>
+            </small>
         </div>
     </div>
 </template>
 
 <style>
-.sidebar-bottom {
-    position: absolute;
-    width: 250px;
-    bottom: 0px;
-    margin: 0px;
-    padding: 0px;
-}
-
-.sidebar-bottom .control {
-    display: block;
-}
-
-.full-width {
-    width: 100%;
-}
-
-.margin-bottom-20px {
-    margin-bottom: 20px;
-}
-
-.rotate-90 {
-    animation:rotate-90-animation 1s linear forwards;
-}
-
-@keyframes rotate-90-animation {
-    100% {
-        transform:rotate(90deg);
-    }
-}
-
 .view {
     transition: all .3s ease;
 }
@@ -120,6 +90,12 @@ export default {
             }
 
             $("#wrapper").toggleClass("toggled");
+        });
+
+        $("#sidebar-wrapper .sidebar-nav li a").click((e) => {
+            if ($("menu-toggle").hasClass("display")) {
+                $("#menu-toggle").click();
+            }
         });
 
         // Page refreshed handling
