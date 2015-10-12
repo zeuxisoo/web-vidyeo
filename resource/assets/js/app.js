@@ -70,13 +70,13 @@ Router.beforeEach((transition) => {
     StoreHelper.getInstance().getItem('jwt-token').then((token) => {
         if (transition.to.auth) {
             if (!token) {
-                transition.redirect({ name: 'login' });
+                transition.redirect('/login');
             }
         }
 
         if (transition.to.guest) {
             if (token) {
-                transition.redirect({ name: 'home' });
+                transition.redirect('/home');
             }
         }
 
