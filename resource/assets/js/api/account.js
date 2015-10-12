@@ -1,8 +1,6 @@
-export default class Account {
+import BaseApi from '../constracts/api'
 
-    constructor(app) {
-        this.app = app;
-    }
+export default class Account extends BaseApi {
 
     me(data) {
         return this.app.$http.get('account/me', data);

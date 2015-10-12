@@ -8,6 +8,9 @@
 </head>
 <body>
 <div id="app"></div>
+<script>
+var SITE_URL = "{{ request.url_root }}";
+</script>
 <script src="{{ assets_for('app.all.js') }}"></script>
 
 {% if config['DEBUG'] %}

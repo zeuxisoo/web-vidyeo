@@ -1,8 +1,6 @@
-export default class Home {
+import BaseApi from '../constracts/api'
 
-    constructor(app) {
-        this.app = app;
-    }
+export default class Home extends BaseApi {
 
     signup(data) {
         return this.app.$http.post('signup', data);

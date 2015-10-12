@@ -8,7 +8,7 @@ import Api from './api';
 Vue.use(VueRouter);
 Vue.use(VueResource);
 
-Vue.http.options.root  = '/api';
+Vue.http.options.root  = SITE_URL.replace(/\/+$/,'') + '/api';
 Vue.http.headers.common['X-CSRF-TOKEN'] = $('meta[name=csrf-token]').attr('content');
 
 Vue.http.transforms.response.push((response) => {
@@ -27,6 +27,7 @@ Vue.http.transforms.response.push((response) => {
 });
 
 var Router = new VueRouter({
+    hashbang: false,
     history: true,
     saveScrollPosition: true
 });
