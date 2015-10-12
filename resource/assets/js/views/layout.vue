@@ -90,7 +90,7 @@
 }
 
 .view {
-    transition: all .5s ease;
+    transition: all .3s ease;
 }
 
 .fade-and-slide-enter, .fade-and-slide-leave {
@@ -100,11 +100,7 @@
 </style>
 
 <script lang="es6">
-import AccountMixin from '../mixins/account'
-
 export default {
-
-    mixins: [AccountMixin],
 
     data() {
         return {
@@ -126,11 +122,12 @@ export default {
             $("#wrapper").toggleClass("toggled");
         });
 
-        // Active account when jwt token is exists
+        // Page refreshed handling
+        // => Active account and fetch information when jwt token is exists
         this.$store.getItem('jwt-token').then((token) => {
             if (token) {
                 this.setJWTAuthorization(token);
-                this.loadAccountInfo();
+                this.fetchAccountInfo();
             }
         });
 
@@ -173,6 +170,17 @@ export default {
 
         logout() {
             this.removeLoginState();
+        },
+
+        fetchAccountInfo() {
+            this.$api.account
+                .me()
+                .success((response, status, request) => {
+                    this.$emit('accountLogin', response.data);
+                })
+                .error((response, status, request) => {
+                    this.$emit('accountLogout');
+                });
         }
     }
 }

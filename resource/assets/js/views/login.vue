@@ -21,14 +21,14 @@
 
 <script lang="es6">
 import UIMixin from '../mixins/ui'
-import AccountMixin from '../mixins/account'
 
 export default {
 
-    mixins: [UIMixin, AccountMixin],
+    mixins: [UIMixin],
 
     data() {
         return {
+            error   : false,
             account : "",
             password: ""
         }
@@ -44,9 +44,24 @@ export default {
 
                 this.$store.setItem('jwt-token', token).then((token) => {
                     this.$dispatch('tokenSaved', token);
-                    this.loadAccountInfo();
+                    this.fetchAccountInfo();
                 }.bind(this));
             }).error(this.shakeError);
+        },
+
+        fetchAccountInfo() {
+            this.$api.account
+                .me()
+                .success((response, status, request) => {
+                    this.$dispatch('accountLogin', response.data);
+                    this.$route.router.go({
+                        name: 'home'
+                    });
+                })
+                .error((response, status, request) => {
+                    this.$dispatch('accountLogout');
+                    this.shakeError(response, status, request);
+                });
         }
     }
 
