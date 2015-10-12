@@ -65,7 +65,7 @@
 
 .fade-and-slide-enter, .fade-and-slide-leave {
     opacity: 0;
-    transform: translate3d(10px, 0, 0);
+    transform: translate3d(0, 10px, 0);
 }
 </style>
 
@@ -80,22 +80,8 @@ export default {
     },
 
     ready() {
-        $("#menu-toggle").click((e) => {
-            e.preventDefault();
-
-            if ($(this).hasClass("rotate-90") === true) {
-                $(this).removeClass("rotate-90");
-            }else{
-                $(this).addClass("rotate-90");
-            }
-
-            $("#wrapper").toggleClass("toggled");
-        });
-
-        $("#sidebar-wrapper .sidebar-nav li a").click((e) => {
-            if ($("menu-toggle").hasClass("display")) {
-                $("#menu-toggle").click();
-            }
+        $('.navbar-collapse').click('li', function() {
+            $('.navbar-collapse').collapse('hide');
         });
 
         // Page refreshed handling
