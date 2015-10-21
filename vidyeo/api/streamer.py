@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask import jsonify
-from flask.ext.jwt import jwt_required, current_user
+from flask.ext.jwt import jwt_required, current_identity
 from ..models import Streamer
 from ..helpers import SecureHelper, ResponseHelper, MessageHelper
 from ..transformers import MessageBagTransformer
@@ -13,15 +13,15 @@ def create():
     error    = True
     message  = ""
 
-    streamer = Streamer.query.filter(Streamer.user_id == current_user.id).first()
+    streamer = Streamer.query.filter(Streamer.user_id == current_identity.id).first()
 
     if streamer:
         message = "You already be a streamer"
     else:
-        raw_channel    = "{0}-{1}".format(current_user.id, current_user.email)
+        raw_channel    = "{0}-{1}".format(current_identity.id, current_identity.email)
         encode_channel = SecureHelper.encode_channel(raw_channel)
 
-        streamer = Streamer(user_id=current_user.id, channel=encode_channel)
+        streamer = Streamer(user_id=current_identity.id, channel=encode_channel)
         streamer.save()
 
         error   = False

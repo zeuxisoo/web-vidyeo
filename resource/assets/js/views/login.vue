@@ -40,7 +40,7 @@ export default {
                 username: this.account,
                 password: this.password
             }).success((response, status, request) => {
-                let token = response.token;
+                let token = response.access_token;
 
                 this.$store.setItem('jwt-token', token).then((token) => {
                     this.$dispatch('tokenSaved', token);

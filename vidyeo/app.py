@@ -33,10 +33,7 @@ def register_csrf(app):
 def register_jwt(app):
     from .models import Account
 
-    jwt = JWT(app)
-
     # curl -X POST -H "Content-Type: application/json" -d '{"username":"<USERNAME>","password":"<PASSWORD>"}' http://localhost:5000/api/auth
-    @jwt.authentication_handler
     def authenticate(username, password):
         if '@' in username:
             account = Account.query.filter_by(email=username).first()
@@ -44,15 +41,19 @@ def register_jwt(app):
             account = Account.query.filter_by(username=username).first()
 
         if account and account.password_verify(password):
+            print account
             return account
 
     # curl -H "Authorization: Bearer <JWT_TOKEN>" http://localhost:5000/api/media/detail/protected?token=<TOKEN>
-    @jwt.user_handler
-    def load_user(payload):
-        if 'user_id' in payload:
-            return Account.query.get(payload['user_id'])
+    def identity(payload):
+        if 'identity' in payload:
+            return Account.query.get(payload['identity'])
+        else:
+            return None
 
-    @jwt.error_handler
+    jwt = JWT(app, authenticate, identity)
+
+    @jwt.jwt_error_handler
     def error_handler(e):
         data = {
             'message'    : e.description,
