@@ -60,6 +60,12 @@ Router.map({
         component: require('./views/streamer/boardcast.vue')
     },
 
+    '/room/:channel': {
+        auth     : true,
+        name     : 'room.index',
+        component: require('./views/room/index.vue')
+    },
+
     '*': {
         name     : 'any',
         component: require('./views/not-found.vue')

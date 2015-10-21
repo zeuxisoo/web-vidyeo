@@ -27,22 +27,34 @@
                 </div>
             </div>
         </div>
+        <div class="row" v-bind:class="{ 'shake': error, 'animated': error }">
+            <div class="col-xs-12">
+                <button class="btn btn-lg btn-primary full-width" v-if="isStarted == false" v-on:click="startStreaming">Start</button>
+                <button class="btn btn-lg btn-danger full-width" v-if="isStarted == true" v-on:click="stopStreaming">Stop</button>
+            </div>
+        </div>
     </div>
 </template>
 
 <style>
-
+.full-width {
+    width: 100%;
+}
 </style>
 
 <script lang="es6">
 import MessageHelper from '../../helpers/message'
+import UIMixin from '../../mixins/ui'
 
 export default {
 
+    mixins: [UIMixin],
+
     data() {
         return {
-            audioes: [],
-            videoes: []
+            audioes  : [],
+            videoes  : [],
+            isStarted: false
         }
     },
 
@@ -190,6 +202,43 @@ export default {
             }
 
             return new Blob([arrayBuffer], { type: 'image/jpeg' });
+        },
+
+        startStreaming() {
+            var $video  = document.querySelector('#video');
+            var $canvas = document.querySelector('#canvas');
+
+            if ($video.paused === true) {
+                MessageHelper.error('The video is not playing');
+            }else{
+                this.$api.streamer
+                    .start({
+                        cover: $canvas.toDataURL("image/jpeg", 1.0)
+                    })
+                    .success((response, status, request) => {
+                        var response = response.data,
+                            message  = response.message;
+
+                        MessageHelper.success(message);
+
+                        this.isStarted = true;
+                    })
+                    .error(this.shakeError);
+            }
+        },
+
+        stopStreaming() {
+            this.$api.streamer
+                .stop({})
+                .success((response, status, request) => {
+                    var response = response.data,
+                        message  = response.message;
+
+                    MessageHelper.info(message);
+
+                    this.isStarted = false;
+                })
+                .error(this.shakeError);
         }
     }
 

@@ -7,6 +7,9 @@ venv:
 	source venv/bin/activate && pip install -r requirements.txt
 
 server:
+	source venv/bin/activate && python manager.py runsocketio
+
+web-server:
 	source venv/bin/activate && python manager.py runserver
 
 prod-server:

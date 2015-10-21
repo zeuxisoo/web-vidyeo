@@ -11,5 +11,14 @@ class ResponseHelper(object):
         )
 
     @staticmethod
+    def collection(datas, transformer):
+        transformer       = transformer()
+        transformed_datas = [transformer.transform(data) for data in datas]
+
+        return jsonify(
+            data=transformed_datas
+        )
+
+    @staticmethod
     def status_code(error):
         return 400 if error else 200
