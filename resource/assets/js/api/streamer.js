@@ -6,6 +6,10 @@ export default class Streamer extends BaseApi {
         return this.app.$http.get('streamer/create', data);
     }
 
+    info(data) {
+        return this.app.$http.get('streamer/info', data);
+    }
+
     start(data) {
         return this.app.$http.post('streamer/start', data);
     }

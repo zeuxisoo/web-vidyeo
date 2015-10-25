@@ -1,6 +1,7 @@
 <template>
     <div id="room" v-bind:class="{ 'shake': error, 'animated': error }">
         <h3>{{ room.channel }}</h3>
+
         <hr>
     </div>
 </template>

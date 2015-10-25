@@ -1,7 +1,7 @@
 <template>
     <div id="home">
         <div class="row">
-            <div class="col-xs-3" v-for="streaming in streamings">
+            <div class="col-xs-6 col-md-3" v-for="streaming in streamings">
                 <div class="thumbnail">
                     <a v-link="{ name: 'room.index', params: { channel: streaming.channel } }">
                         <img v-bind:src="streaming.cover" alt="{{ streaming.channel }}">

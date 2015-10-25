@@ -3,7 +3,7 @@ from flask import jsonify, request
 from flask.ext.jwt import jwt_required, current_identity
 from ..models import Streamer
 from ..helpers import SecureHelper, ResponseHelper, MessageHelper
-from ..transformers import MessageBagTransformer
+from ..transformers import MessageBagTransformer, StreamerTransformer
 
 blueprint = Blueprint('api.streamer', __name__)
 
@@ -25,6 +25,24 @@ def create():
 
         error   = False
         message = "Your streamer role created"
+
+    return ResponseHelper.item(
+        MessageHelper.create(error, message),
+        MessageBagTransformer
+    ), ResponseHelper.status_code(error)
+
+@blueprint.route('/info')
+@jwt_required()
+def info():
+    error    = True
+    message  = ""
+
+    streamer = Streamer.query.filter(Streamer.user_id == current_identity.id).first()
+
+    if not streamer:
+        message = "Can not found related streamer"
+    else:
+        return ResponseHelper.item(streamer, StreamerTransformer)
 
     return ResponseHelper.item(
         MessageHelper.create(error, message),

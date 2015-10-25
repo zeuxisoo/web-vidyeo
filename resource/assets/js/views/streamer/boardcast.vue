@@ -44,6 +44,7 @@
 
 <script lang="es6">
 import MessageHelper from '../../helpers/message'
+import SocketHelper from '../../helpers/socket'
 import UIMixin from '../../mixins/ui'
 
 export default {
@@ -52,14 +53,35 @@ export default {
 
     data() {
         return {
-            audioes  : [],
-            videoes  : [],
-            isStarted: false
+            audioes     : [],
+            videoes     : [],
+            isStarted   : false,
+            streamerInfo: {}
         }
     },
 
     ready() {
-        this.openMedia();
+        this.$api.streamer
+            .info({})
+            .success((response, status, request) => {
+                var streamerInfo = response.data;
+
+                this.streamerInfo = streamerInfo;
+                this.openMedia();
+            })
+            .error((response, status, request) => {
+                MessageHelper.error("Can not fetch streamer information");
+            });
+
+        window.onbeforeunload = function() {
+            SocketHelper.disconnect()
+        }
+    },
+
+    route: {
+        deactivate() {
+            SocketHelper.disconnect();
+        }
     },
 
     methods: {
@@ -222,6 +244,8 @@ export default {
                         MessageHelper.success(message);
 
                         this.isStarted = true;
+
+                        SocketHelper.joinChannel(this.streamerInfo.channel);
                     })
                     .error(this.shakeError);
             }
@@ -237,6 +261,8 @@ export default {
                     MessageHelper.info(message);
 
                     this.isStarted = false;
+
+                    SocketHelper.leaveChannel(this.streamerInfo.channel);
                 })
                 .error(this.shakeError);
         }

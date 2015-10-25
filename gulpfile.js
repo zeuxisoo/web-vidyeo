@@ -61,6 +61,7 @@ gulp.task('scripts', function(callback) {
             'bower_components/jquery/dist/jquery.js',
             'bower_components/bootstrap/dist/js/bootstrap.js',
             'bower_components/toastr/toastr.js',
+            'bower_components/socket.io-client/socket.io.js',
             buildPath + '/app.scope.js'
         ])
         .pipe(sourcemaps.init())

@@ -5,6 +5,8 @@ from flask_wtf.csrf import CsrfProtect
 from flask.ext.jwt import JWT
 from flask.ext.socketio import SocketIO
 
+socketio = SocketIO()
+
 def create_app():
     app = Flask(__name__, template_folder='views')
     app.static_folder = os.path.abspath('public')
@@ -65,9 +67,9 @@ def register_jwt(app):
         return jsonify(data=data), e.status_code, e.headers
 
 def register_socketio(app):
-    socketio = SocketIO(app)
+    socketio.init_app(app)
 
-    app.socketio = socketio
+    from .sockets import stream
 
 def register_routes(app):
     from .routes import index
