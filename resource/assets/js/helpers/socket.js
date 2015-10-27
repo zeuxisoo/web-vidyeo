@@ -4,13 +4,11 @@ class SocketHelper {
         this.namespace = "/socket/stream";
         this.socket    = io.connect("//" + document.domain + ":" + location.port + this.namespace);
 
-        // Global logger
-        this.socket.on("log", function(message) {
+        this.socket.on("log", (message) => {
             console.log("[Received server log] " + message.data);
         });
 
-        // Connect event
-        this.socket.on("connect", function() {
+        this.socket.on("connect", () => {
             this.socket.emit("message", {
                 data: "I am connected"
             })
@@ -32,6 +30,17 @@ class SocketHelper {
     disconnect() {
         this.socket.emit("disconnect request");
         this.socket.disconnect();
+    }
+
+    sendMedia(channel, blob) {
+        this.socket.emit("send media", {
+            channel: channel,
+            blob   : blob
+        });
+    }
+
+    receiveMedia(callback) {
+        this.socket.on("receive media", message => callback(message.blob));
     }
 
 }

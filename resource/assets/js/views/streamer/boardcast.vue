@@ -192,9 +192,12 @@ export default {
 
                                 context.drawImage($video, 0, 0, videoWidth, videoHeight);
 
-                                var data = canvas.toDataURL("image/jpeg", 1.0);
+                                if (self.isStarted === true) {
+                                    var data = canvas.toDataURL("image/jpeg", 1.0);
+                                    var blob = self.dataURItoBlob(data);
 
-                                self.dataURItoBlob(data);
+                                    SocketHelper.sendMedia(self.streamerInfo.channel, blob);
+                                }
                             }catch(e) {
                                 clearInterval(canvasTimer);
                             }
@@ -243,9 +246,9 @@ export default {
 
                         MessageHelper.success(message);
 
-                        this.isStarted = true;
-
                         SocketHelper.joinChannel(this.streamerInfo.channel);
+
+                        this.isStarted = true;
                     })
                     .error(this.shakeError);
             }
@@ -260,9 +263,9 @@ export default {
 
                     MessageHelper.info(message);
 
-                    this.isStarted = false;
-
                     SocketHelper.leaveChannel(this.streamerInfo.channel);
+
+                    this.isStarted = false;
                 })
                 .error(this.shakeError);
         }

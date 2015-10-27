@@ -35,3 +35,16 @@ def leave_channel(message):
     emit('log', {
         'data': 'leave channel: {0}'.format(', '.join(rooms()))
     })
+
+@socketio.on('send media', namespace=namespace)
+def send_media(message):
+    channel = message['channel']
+    blob    = message['blob']
+
+    emit('log', {
+        'data': 'send media: {0} channel, {1} blob length'.format(channel, len(blob))
+    })
+
+    emit('receive media', {
+        'blob': blob.encode('base64')
+    }, room=channel, broadcast=True)
